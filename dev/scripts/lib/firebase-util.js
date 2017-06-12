@@ -9,3 +9,12 @@ const config = {
 firebase.initializeApp(config);
 
 export const getFirebase = () => firebase;
+
+export const firebaseSignout = () => {
+  console.log('logging out');
+  firebase.auth().signOut();
+}
+
+export const getProject = (userId) => firebase.database().ref('/projects/'+userId).once('value');
+export const getDocuments = () => firebase.database().ref('/documents').once('value');
+export const getLastLogin = (userId) => firebase.database().ref('/users/'+userId).once('value');

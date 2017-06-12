@@ -1,0 +1,1 @@
+export {MiniProjectCard} from './MiniProjectCard';

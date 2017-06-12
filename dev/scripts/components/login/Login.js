@@ -19,8 +19,7 @@ export class Login extends Component {
         'rePassword': ''
       },
       formType: 'login',
-      statusMessage: '',
-      gmailSignedIn: false
+      statusMessage: ''
     }
     this.defaultState = getDefaultState(this.state);
 
@@ -30,8 +29,9 @@ export class Login extends Component {
     this.createUser = this.createUser.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleFirebaseErr = this.handleFirebaseErr.bind(this);
-    this.initializeGmail = this.initializeGmail.bind(this);
+    this.initalizeUser = this.initalizeUser.bind(this);
   }
+
   handleFirebaseErr(errMessage) {
     this.setState({statusMessage: errMessage});
   }
@@ -45,12 +45,22 @@ export class Login extends Component {
       this.setState({newUser});
     }
   }
+  initalizeUser() {
+    const user = getFirebase().auth().currentUser;
+    const database = getFirebase().database();
+    const userId = user.uid;
+    const usersRef = database.ref('/users/'+userId);
+    const userName = emailAddressToUsername(user.email)
+    usersRef.set({
+      userId: userId,
+      username: userName
+    });
+  }
   loginUser(e) {
     if (isValidEmail(this.state.loginUser.email)) {
       getFirebase().auth().signInWithEmailAndPassword(this.state.loginUser.email, this.state.loginUser.password)
       .then((user) => {
         console.log('successful login');
-        this.initializeGmail();
         this.setState({
           loginUser: Object.assign({}, this.defaultState.loginUser),
           statusMessage: ''
@@ -67,6 +77,7 @@ export class Login extends Component {
       getFirebase().auth().createUserWithEmailAndPassword(this.state.newUser.email, this.state.newUser.password)
       .then((user) => {
         console.log('successful signup');
+        this.initalizeUser();
         this.setState({
           newUser: Object.assign({},this.defaultState.newUser),
           statusMessage: '',
@@ -74,7 +85,6 @@ export class Login extends Component {
         });
       },
       (err) => this.handleFirebaseErr(err.message));
-
     }
     else if (!isValidPassword(this.state.newUser)) {
       if (!isValidEmail(this.state.newUser.email)) {
@@ -127,34 +137,6 @@ export class Login extends Component {
         newUser: Object.assign({},this.defaultState.newUser)
       });
     }
-  }
-  initializeGmail() {
-    console.log(this);
-    gapi.load('client:auth2', initClient);
-
-    function initClient() {
-      gapi.client.init({
-        discoveryDocs: DISCOVERY_DOCS,
-        clientId: CLIENT_ID,
-        scope: SCOPES
-      })
-      .then(() => {
-        gapi.auth2.getAuthInstance().isSignedIn.listen(signedIn);
-        gapi.auth2.getAuthInstance().signIn();
-        signedIn();
-      });
-    }
-    const signedIn = () => {
-      // console.log(gapi.auth2.getAuthInstance().isSignedIn.get());
-      this.setState({gmailSignedIn: !this.state.gmailSignedIn});
-    }
-  }
-  componentDidMount() {
-    const firebase = getFirebase();
-    firebase.auth().onAuthStateChanged((user) => {
-      console.log('User changed');
-      this.setState({user});
-    });
   }
   render() {
     return (
