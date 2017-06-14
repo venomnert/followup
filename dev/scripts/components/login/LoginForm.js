@@ -2,26 +2,24 @@ import React from 'react';
 
 export const LoginForm = (props) => {
   return (
-    <div>
-      <h1 className="login--header">Login</h1>
-      <p className="login--descr">Track your project documents in one place.</p>
-      <form className="login--form">
-        <label>
-          Email Address:
-          <input
-            name="email"
-            type="text"
-            onChange={props.handleOnChange}
-            value={props.email} />
-        </label>
-        <label>
-          Password:
-          <input
-            name="password"
-            type="password"
-            onChange={props.handleOnChange}
-            value={props.password} />
-          </label>
+    <div className="login__login-form">
+      <h1 className="login__header">Login</h1>
+      <p className="login__descr">FollowUp when you need to track all your project documents in a single place.</p>
+      <form className="login__form">
+        <input
+          className="login__form-email"
+          name="email"
+          type="text"
+          placeholder="Email Address"
+          onChange={props.handleOnChange}
+          value={props.email} />
+        <input
+          className="login__form-password"
+          name="password"
+          type="password"
+          placeholder="Password"
+          onChange={props.handleOnChange}
+          value={props.password} />
       </form>
     </div>
   );

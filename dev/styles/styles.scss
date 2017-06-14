@@ -1,0 +1,27 @@
+@import './partials/setting_colors';
+@import './partials/setting_typography';
+@import './partials/tools_mixins';
+@import './partials/generic_normalize';
+
+@import './partials/elements_image';
+@import './partials/elements_header';
+@import './partials/elements_button';
+@import './partials/elements_body';
+@import './partials/elements_a-tag';
+
+@import './partials/component_container';
+
+@import './partials/login/component_login-page';
+@import './partials/login/component_login-form';
+@import './partials/login/component_login-toggle';
+@import './partials/login/component_login-signup';
+
+@import './partials/dashboard/component_dashboard-page';
+
+@import './partials/menu/component_menu-page';
+
+@import './partials/newProject/component_new-project-page';
+
+@import "./partials/allProjects/component_all-project-page";
+
+@import "./partials/defaultDashboard/component_default-dashboard-page";

@@ -1,0 +1,35 @@
+.signup__header {
+  color: $primary-color-dark;
+  letter-spacing: 0.05em;
+}
+.signup__form-email,
+.signup__form-password,
+.signup__form-rePassword {
+  display: block;
+  margin: 0.5em 0 1em 0;
+  border: 0;
+  border-bottom: 1px solid $divider-color;
+  height: 40px;
+  width: 75%;
+  font-size: 1.2em;
+}
+input:focus { outline: none; }
+.signup__btns {
+  text-align: right;
+  margin-right: 8em;
+}
+.signup__save-btn, .signup__cancel-btn {
+  display: inline-block;
+  font-size: 1.25em;
+  margin-left: 1em;
+  border-radius: 5%;
+  padding: 0.25em 0.75em;
+  background-color: #fff;
+  color: $primary-color;
+}
+
+.signup__save-btn:hover,
+.signup__cancel-btn:hover {
+  background-color: $primary-color;
+  color: #fff;
+}

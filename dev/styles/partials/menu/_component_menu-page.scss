@@ -1,0 +1,96 @@
+.menu-list {
+  list-style: none;
+  padding: 1em;
+  margin: 0;
+}
+.menu-item--userSection {
+  text-align: center;
+  border-bottom: 1px solid $divider-color;
+  padding-bottom: 2em;
+  margin-bottom: 3em;
+}
+.userSection--avatar {
+  border-radius: 50%;
+  margin-bottom: 0.5em;
+}
+.userSection--username {
+  text-align: center;
+  margin: 0;
+}
+.menu-item--projectsSection {
+  border-bottom: 1px solid $divider-color;
+  padding-bottom: 2em;
+  margin-bottom: 3em;
+}
+.menu-item--projectsSection i {
+  margin-right: 0.5em;
+  font-size: 1.5em;
+}
+.menu-item--projectsSection h4 {
+  margin: 0;
+  display: inline-block;
+  margin-bottom: 0.5em;
+}
+.projectsSection {
+  padding-left: 4em;
+  list-style-type: tibetan;
+}
+.projectsSection li {
+  margin-bottom: 0.3em;
+}
+
+.menu-item--logoutBtn {
+  text-align: center;
+  margin-bottom: 2em;
+}
+.logout i {
+  margin-right: 0.5em;
+  font-size: 1.5em;
+}
+button.logout {
+  border: 0;
+  border-radius: 8%;
+  padding: 0.4em 1em;
+  color: #fff;
+  letter-spacing: 0.10em;
+  background-color: $primary-color;
+}
+
+@media (max-width: 700px) {
+  .menu-item--userSection {
+    padding-bottom: 1em;
+    margin-bottom: 2em;
+  }
+
+  .menu-item--projectsSection {
+    padding-bottom: 1em;
+    margin-bottom: 2em;
+  }
+  .menu-item--projectsSection h4,
+  .menu-item--projectsSection i {
+    display: none;
+  }
+  .projectsSection {
+    padding: 0;
+    list-style-type: none;
+    text-align: center;
+  }
+  .projectsSection li {
+    display: inline-block;
+    margin-left: 1em;
+  }
+}
+
+@media (max-width: 400px) {
+  .userSection--avatar {
+    width: 100px;
+  }
+  .logout i {
+    margin-right: 0.5em;
+    font-size: 1.2em;
+  }
+  button.logout {
+    padding: 0.4em 0.75em;
+
+  }
+}

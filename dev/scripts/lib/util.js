@@ -80,17 +80,23 @@ export const stripUniqueKeys = (obj) => {
 
 export const calcPercent = (docObj) => {
   let total = docObj.requiredDocuments.length;
-  let received = '';
-  if (docObj.receivedDocuments === undefined) { received = 0; }
-  else { received = docObj.receivedDocuments.length; }
-  return Math.round(received/total);
+  // console.log('total', total);
+  if (docObj.receivedDocuments === undefined) {
+    // console.log('nothing');
+    return 0;
+  }
+  else {
+    let received = docObj.receivedDocuments.length;
+    // console.log('total', total, 'received', received, Math.round((received/total)*100));
+    return Math.round((received/total)*100);
+  }
 };
 
 export const getProjectNames = (projects) => {
   // Strip keys
   // return projectNames
   const getName = (arr)=> {
-    console.log('return ', arr);
+    // console.log('return ', arr);
     return arr.map((project) => {
       return project.projectName
     });
@@ -99,7 +105,7 @@ export const getProjectNames = (projects) => {
   return projectNames(projects);
 }
 
-export const mergeProjectName = (name) => { return name.split(' ').join('_'); }
+export const mergeProjectName = (name) => { return name.toLowerCase().split(' ').join('_'); }
 
 export const createOrQuery = (selector, value) => {
   if (typeof value === 'string') {
@@ -116,10 +122,8 @@ export const createOrQuery = (selector, value) => {
 }
 
 export const getRemainingDocs = (req, received) => {
-  return req.map((doc) => {
-    if (received.indexOf(doc) < 0) {
-      return doc.id;
-    }
+  return req.filter((doc) => {
+    return received.indexOf(doc) < 0;
    });
 }
 export const getRemainingDocsNames = (needDocArr, docs) => {
@@ -128,24 +132,58 @@ export const getRemainingDocsNames = (needDocArr, docs) => {
   });
 }
 
+export const getDocumentsNames = (project, selector) => {
+  return project.documents[selector].map((docId) =>{
+    return documents[docId].name;
+  });
+}
+
 export const getNeedDocs = (projects, docs) => {
   const remainDocs = [];
-
   stripUniqueKeys(projects).forEach((project) => {
     if (project.documents.receivedDocuments !== undefined) {
       const remainingDocs = getRemainingDocs(project.documents.requiredDocuments, project.documents.receivedDocuments);
-      console.log('remain', remainingDocs);
+      console.log('remain', project.projectName, remainingDocs);
       remainingDocs.forEach((docId) => {
         remainDocs.push(docs[docId].name);
       });
     }
     else {
       project.documents.requiredDocuments.forEach((docId) => {
-        // console.log(docs[docId].name);
+        console.log(project.projectName, docs, docId);
         remainDocs.push(docs[docId].name);
       });
     }
   });
-
   return remainDocs;
+}
+
+const parseSubject = (subject) => {
+  return subject.toLowerCase().replace('project name:', '').trim();
+}
+const getFilename = (name) => {
+  return name.toLowerCase().split('.')[0];
+}
+const getSubject = (arr) => {
+  let subject = '';
+  arr.forEach((header) => {
+    if (header.name.toLowerCase() === 'subject') {
+      subject = parseSubject(header.value);
+    }
+  });
+  return subject;
+}
+
+export const getResObj = (payload) => {
+  const resObj = {projectName: '', documentName: ''}
+  resObj.projectName = getSubject(payload.headers);
+  resObj.documentName = getFilename(payload.parts[1].filename);
+  return resObj;
+}
+
+export const checkComplete = (req, rec) => {
+  console.log(req, rec);
+  if (rec === undefined) { return false}
+  if (req.length === rec.length) { return true;}
+  else { return false;}
 }

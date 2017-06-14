@@ -70,7 +70,7 @@ export class MultiSelect extends Component {
       selectedItems = this.getSelectedItems();
     }
     return (
-      <div>
+      <div className="multiSelect">
         <ul>{selectedItems}</ul>
         <select value={this.getValue()} onChange={this.handleChange}>
           {options}

@@ -23,8 +23,8 @@ export class NewProject extends Component {
       errMessage: ''
     }
     this.documentsList = [
-      { name: 'pay_slip', id: '-KmSq67fIn0-Jic5IPAQ', category: 'income' },
-      { name: 'income_Tax', id: '-KmSq67bQ1It-n1U_HHI', category: 'income' }
+      { name: 'pay_slip', id: "-KmSz6BGkcXd1eJazCGw", category: 'income' },
+      { name: 'income_Tax', id: "-KmSz6BCe2yXvNhx1GbG", category: 'income' }
     ]
     this.membersList = [
       { id: '1', name: 'John Will' },
@@ -91,9 +91,8 @@ export class NewProject extends Component {
   render() {
     return (
       <div>
-        <h1 className="newproject--header">Create A New Project</h1>
-        <p className="newproject--descr">Create a new project to track your documents.</p>
-        {this.state.errMessage.length === 0 ? '': <h2>{this.state.errMessage}</h2>}
+        <h2 className="newproject__header">Create A New Project</h2>
+        <p className="newproject__descr">Create a new project to track your documents.</p>
         <NewProjectForm
           newProject={this.state.newProject}
           handleOnChange={this.handleOnChange}
@@ -103,6 +102,7 @@ export class NewProject extends Component {
           documents={this.documentsList}
           members={this.membersList}
         />
+        {this.state.errMessage.length === 0 ? '': <h3 className="errorMessage">{this.state.errMessage}</h3>}
       </div>
     );
   }

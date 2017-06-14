@@ -1,0 +1,25 @@
+.login__login-form {
+  text-align: left;
+  margin-bottom: 2em;
+}
+.login__header {
+  color: $primary-color-dark;
+  letter-spacing: 0.05em;
+}
+.login__descr {
+  word-spacing: 0.1em;
+  line-height: 1.3em;
+  padding-right: 5em;
+  margin-bottom: 2em;
+}
+
+.login__form-email, .login__form-password {
+  display: block;
+  margin: 0.5em 0 1em 0;
+  border: 0;
+  border-bottom: 1px solid $divider-color;
+  height: 40px;
+  width: 75%;
+  font-size: 1.2em;
+}
+input:focus { outline: none; }

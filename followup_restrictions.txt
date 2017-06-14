@@ -1,0 +1,11 @@
+The subject of your email should be in the following format:
+Project Name: string1_string2
+
+The body:
+The body should be empty
+
+Attachment:
+You can upload multiple files
+The files should be name extactly like how it was described in the initial email
+
+

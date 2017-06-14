@@ -5,7 +5,7 @@ import {MultiSelect} from './MultiSelect';
 
 export const NewProjectForm = (props) => {
   return (
-      <form className="newproject--form" onSubmit={props.handleSubmit}>
+      <form className="newproject__form" onSubmit={props.handleSubmit}>
         <label>
           Project Name:
           <input
@@ -50,7 +50,10 @@ export const NewProjectForm = (props) => {
             onChange={props.handleOnChange}
             value={props.newProject.email} />
         </label>
-        <input type="submit" value="Save & Send" />
+        <input
+          className="save__btn"
+          type="submit"
+          value="Save & Track" />
       </form>
   );
 }

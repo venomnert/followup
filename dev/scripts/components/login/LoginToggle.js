@@ -2,13 +2,13 @@ import React from 'react';
 
 export const LoginToggle = (props) => {
   return (
-    <div className="login--toggle">
+    <div className="login__toggle">
       <button
         onClick={props.loginUser}
-        className="toggle--login">Log In</button>
+        className="toggle__login">Log In</button>
       <button
         onClick={props.toggleFormType}
-        className="toggle--signup">Sign Up</button>
+        className="toggle__signup">Sign Up</button>
     </div>
   );
 }

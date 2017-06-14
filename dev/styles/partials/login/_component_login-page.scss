@@ -1,0 +1,36 @@
+body {
+  background-image: url('../../assests/img/login_background.jpg');
+  background-repeat: no-repeat repeat;
+  background-position: 50% 50%;
+  background-size: cover;
+  height: 77vh;
+}
+#app {
+  background: #fff;
+  max-width: 90%;
+  width: 700px;
+}
+.login {
+  max-width: 500px;
+  margin-left: 20%;
+  height: 50vh;
+  margin-top: 15%;
+}
+.login__statusMessage {
+  text-align: left;
+  font-size: 1.2em;
+  color: $err-message-color;
+  margin-top: 0;
+  height: 25px;
+}
+
+@media (max-width: 675px) {
+  .login {
+    font-size: 0.9em;
+    margin-left: 2%;
+    width: 100%;
+    min-width: 200px;
+    height: 50vh;
+    margin-top: 15%;
+  }
+}

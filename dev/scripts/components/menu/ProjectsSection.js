@@ -1,10 +1,12 @@
 import React from 'react';
+import {Link } from 'react-router-dom';
+
 
 export const ProjectsSection = (props) => {
   return (
     <ul className="projectsSection">
-      <li className="projectsSection--projects"><a href="/projects" onClick={props.handleLink}>View Projects</a></li>
-      <li className="projectsSection--newProject"><a href="/create-new-project" onClick={props.handleLink}>New Project</a></li>
+      <li className="projectsSection--projects"><Link to="/dashboard/allProjects">View Projects</Link></li>
+      <li className="projectsSection--newProject"><Link to="/dashboard/newProject">New Project</Link></li>
     </ul>
   );
 }

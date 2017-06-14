@@ -34,7 +34,6 @@ export class AllProjects extends Component {
   render() {
     return (
       <ul className="allprojects-list">
-        Testing
         {this.makeMiniProjectCards()}
       </ul>
     );

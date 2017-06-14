@@ -1,0 +1,15 @@
+.defaultdashboard {
+  text-align: center;
+}
+.defaultdashboard__header {
+  color: $primary-color;
+}
+.defaultdashboard__messages-section {
+  padding: 2em;
+}
+.defaultdashboard__lastLogin span{
+  color: $primary-text-color;
+}
+.defaultdashboard__message {
+  color: $primary-color-dark;
+}

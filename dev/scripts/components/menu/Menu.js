@@ -21,7 +21,6 @@ export class Menu extends Component {
     lastLoginRef.once('value')
     .then((snapshot) => {
       const logoutTime = moment()._d.toString();
-
       // Check if lastLogin exist if not do the below
       if (snapshot.val().lastLogin === undefined) {
         lastLoginRef
@@ -29,6 +28,7 @@ export class Menu extends Component {
         .then(() => {
           gmailSignOut();
           firebaseSignout();
+          window.location.replace("/");
         });
       }
       else if (typeof snapshot.val().lastLogin === 'string') {
@@ -38,6 +38,7 @@ export class Menu extends Component {
         .then(() => {
           gmailSignOut();
           firebaseSignout();
+          window.location.replace("/");
         });
       }
       else { // If lastLogin exists
@@ -48,13 +49,13 @@ export class Menu extends Component {
         .then(() => {
           gmailSignOut();
           firebaseSignout();
+          window.location.replace("/");
         });
       }
     });
   }
   handleLogout() {
     // Make sure to remove all listeners from the database
-    
     this.lastLogin();
   }
   handleLink(e) {
@@ -66,13 +67,9 @@ export class Menu extends Component {
       <nav className="menu">
         <ul className="menu-list">
           <li className="menu-item--userSection"><UserSection /></li>
-          <li className="menu-item--projectsSection"><ProjectsSection handleLink={this.handleLink} /></li>
-          <li className="menu-item--memebersSection"><MembersSection handleLink={this.handleLink} /></li>
-          <li className="menu-item--logoutBtn">
-            <Logout
-              handleLogout={this.handleLogout}
-            />
-          </li>
+          <li className="menu-item--projectsSection"><i className="fa fa-folder" aria-hidden="true"></i><h4>Projects</h4><ProjectsSection /></li>
+          {/* <li className="menu-item--memebersSection"><MembersSection /></li> */}
+          <li className="menu-item--logoutBtn"><Logout handleLogout={this.handleLogout} /></li>
         </ul>
       </nav>
     );

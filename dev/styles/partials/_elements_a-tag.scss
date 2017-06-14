@@ -1,0 +1,12 @@
+a { text-decoration: none; }
+a:link,
+a:visited {
+  text-decoration: none;
+  color: $primary-color;
+}
+
+a:hover,
+a:active {
+  text-decoration: none;
+  color: $primary-color-dark;
+}

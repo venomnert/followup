@@ -1,0 +1,26 @@
+.login__toggle {
+  text-align: right;
+  margin-right: 8em;
+}
+.toggle__login, .toggle__signup {
+  display: inline-block;
+  font-size: 1.25em;
+  margin-left: 1em;
+  border-radius: 5%;
+  padding: 0.25em 0.75em;
+  background-color: #fff;
+  color: $primary-color;
+}
+
+.toggle__login:hover,
+.toggle__signup:hover {
+  background-color: $primary-color;
+  color: #fff;
+}
+
+@media (max-width: 550px) {
+  .login__toggle  {
+    text-align: right;
+    margin-right: 4em;
+  }
+}

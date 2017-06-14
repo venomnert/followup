@@ -1,0 +1,42 @@
+.allprojects-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  list-style-type: none;
+  padding: 0;
+  justify-content: center;
+}
+.allprojects-list__item {
+  width: 90%;
+  padding: 1em;
+  border-radius: 7px;
+  min-height: 175px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+.miniProjectCard__name {
+  margin-bottom: 0.25em
+}
+.miniProjectCard__notes {
+  margin-top: 0;
+}
+.miniProjectCard__members {
+  list-style-type: none;
+  padding: 0;
+  margin-bottom: 1em
+}
+.members__img {
+  display: inline-block;
+  margin-right: 1.5em;
+}
+.circleMember {
+  width: 50px;
+  height: 50px;
+}
+.circleMember-img {
+  border-radius: 50%;
+}
+.status {
+  margin-top: 0;
+  margin-bottom: 0.25em;
+}

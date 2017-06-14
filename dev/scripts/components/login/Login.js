@@ -22,7 +22,6 @@ export class Login extends Component {
       statusMessage: ''
     }
     this.defaultState = getDefaultState(this.state);
-
     this.formTypeChange = this.formTypeChange.bind(this);
     this.loginUser = this.loginUser.bind(this);
     this.toggleFormType = this.toggleFormType.bind(this);
@@ -101,7 +100,6 @@ export class Login extends Component {
       return (
         <div >
           <LoginForm
-            className="login--login-form"
             email={this.state.loginUser.email}
             password={this.state.loginUser.password}
             handleOnChange={this.handleOnChange}
@@ -141,7 +139,7 @@ export class Login extends Component {
   render() {
     return (
       <div className="login">
-        <h3 className="login--statusMessage">{this.state.statusMessage}</h3>
+        <h3 className="login__statusMessage">{this.state.statusMessage}</h3>
         {this.formTypeChange(this.state.formType)}
       </div>
     );
