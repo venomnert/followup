@@ -4,11 +4,11 @@
   flex-wrap: wrap;
   width: 100%;
   list-style-type: none;
-  padding: 0;
   justify-content: center;
+  padding: 2em 1em;
 }
 .allprojects-list__item {
-  width: 90%;
+  width: 60%;
   padding: 1em;
   border-radius: 7px;
   min-height: 175px;
@@ -39,4 +39,11 @@
 .status {
   margin-top: 0;
   margin-bottom: 0.25em;
+}
+
+@media (min-width: 1230px) {
+  .allprojects-list__item { width: 50%;}
+}
+@media (max-width: 900px) {
+  .allprojects-list{ margin-top: 4em;}
 }

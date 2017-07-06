@@ -21,7 +21,7 @@ export class CircleMember extends Component {
       <div className="circleMember">
         <img
           className="circleMember-img"
-          src="https://api.adorable.io/avatars/50/abott@adorable.png" />
+          src="https://avatars.io/instagram/username" />
       </div>
     );
   }

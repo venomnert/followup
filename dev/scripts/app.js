@@ -8,7 +8,6 @@ import {emailAddressToUsername} from './lib/util';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -16,6 +15,13 @@ class App extends Component {
     this.state = {
       signedIn: false
     }
+    this.getStyle = this.getStyle.bind(this);
+  }
+  getStyle() {
+    if (this.state.signedIn) {
+      return { margin: '100px'};
+    }
+    else { return {}; }
   }
   componentWillMount() {
     // Kep this code if you want to call gmail sign only once, but the problem with this is
@@ -48,7 +54,7 @@ class App extends Component {
    }
    render() {
      if (this.state.signedIn && window.sessionStorage.getItem('saveGmailAccess') !== 'false') {
-       return <Dashboard user={'Neerthigan'}/>
+       return <Dashboard user={'Neerthigan'} />
      }
      else { return <Login /> }
    }

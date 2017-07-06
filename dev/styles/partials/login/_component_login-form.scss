@@ -23,3 +23,12 @@
   font-size: 1.2em;
 }
 input:focus { outline: none; }
+
+@media (max-width: 550px) {
+  .login__form-email, .login__form-password { width: 87%;}
+}
+@media (max-width: 450px) {
+  .login__descr {
+    padding-right: 2em; 
+  }
+}

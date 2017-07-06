@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {NewProjectForm} from './index';
-import {getDefaultState, validateForm} from '../../lib/util';
+import {getDefaultState, validateForm, getNewProjectHeader} from '../../lib/util';
 import {getFirebase} from '../../lib/firebase-util';
 import moment from 'moment';
 
@@ -69,6 +69,7 @@ export class NewProject extends Component {
     console.log(validFormResult);
     const errMessage = validFormResult.message;
     if (validFormResult.result) {
+      // If the form is valid then create the new project
       newPostRef.set({
         id: projectId,
         projectName: this.state.newProject.projectName,
@@ -84,13 +85,14 @@ export class NewProject extends Component {
       });
     }
     else {
+      // Else display the error
       this.setState({errMessage});
     }
   }
 
   render() {
     return (
-      <div>
+      <div className="newProject-container">
         <h2 className="newproject__header">Create A New Project</h2>
         <p className="newproject__descr">Create a new project to track your documents.</p>
         <NewProjectForm
@@ -102,7 +104,7 @@ export class NewProject extends Component {
           documents={this.documentsList}
           members={this.membersList}
         />
-        {this.state.errMessage.length === 0 ? '': <h3 className="errorMessage">{this.state.errMessage}</h3>}
+        {this.state.errMessage.length === 0 ? '': <h3 className="errorMessage">{getNewProjectHeader(this.state.errMessage)}</h3>}
       </div>
     );
   }

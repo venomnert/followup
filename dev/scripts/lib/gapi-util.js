@@ -43,7 +43,6 @@ export const getMail = (query) => {
   return (
       gapi.client.gmail.users.messages.list({
       'userId': 'me',
-      'labelIds': 'INBOX',
       'maxResults': 100,
       'q': `${query}`
     })

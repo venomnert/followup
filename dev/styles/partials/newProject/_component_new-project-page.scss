@@ -1,9 +1,13 @@
+.newProject-container {
+  padding: 2em;
+}
 .newproject__header {
-  margin-bottom: 0;
+  margin-bottom: 0.35em;
 }
 .newproject__descr {
-  margin-top: 0.2em;
+  margin-top: 0;
   color: #607D8B;
+  margin-bottom: 3em;
 }
 
 .newproject__form label,
@@ -22,23 +26,29 @@ textarea {
   height: 100px;
   line-height: 1.2em;
   letter-spacing: 0.07em;
+  margin-top: 1em;
 }
 select {
-  background: transparent;
+  background: $primary-color-text;
   border: 0;
-  border-bottom: 1px solid $accent-color;
+  border: 2px solid $accent-color;
   padding: 5px;
   line-height: 1;
   height: 34px;
 }
 .newproject__form label {
-  margin-bottom: 0.75em;
+  margin-bottom: 2em;
   color: $primary-text-color;
+  font-weight: 600;
+  letter-spacing: 0.1em;
 }
 .newproject__form input {
   margin-top: 0.75em;
   font-size: 1.1em;
   padding: 0.3em;
+  background-color: transparent;
+  border: 0;
+  border-bottom: 2px solid $secondary-text-color;
 }
 .newproject__form .save__btn {
   border: 0;
@@ -46,15 +56,26 @@ select {
   padding: 0.5em;
   width: 50%;
   margin: 0 auto;
-  background-color: $primary-color-light;
   font-size: 1.2em;
-  color: #fff;
-}
-.newproject__form .save__btn:hover {
   background-color: $primary-color-dark;
+  color: $primary-color-text;
 }
 .errorMessage {
   color: $err-message-color;
+  text-align: center;
+}
+
+.multiSelect li {
+  margin-bottom: 0.75em;
+  position: relative;
+}
+.multiSelect li[data-id]:after {
+  content: "X";
+  position: absolute;
+  top: 0;
+  right: 83%;
+  color: $err-message-color;
+  cursor: pointer;
 }
 @media (max-width: 500px) {
   .newproject__form label,
@@ -63,5 +84,25 @@ select {
   .newproject__form select,
   textarea {
     font-size: 0.95em;
+  }
+}
+@media (min-width: 1230px) {
+  .newProject-container {
+    padding: 2em 2em;
+    width: 60%;
+    margin: 0 auto;
+  }
+}
+@media (max-width: 900px) {
+  .newProject-container {
+    margin-top: 3em;
+    padding: 2em 4em;
+  }
+}
+@media (max-width: 420px) {
+  .newproject__form .save__btn {
+    padding: 0.25em;
+    width: 65%;
+    font-size: 1em;
   }
 }

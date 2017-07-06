@@ -22,15 +22,31 @@ export class AllProjects extends Component {
     });
    }
 
- makeMiniProjectCards() {
-  return this.state.projects.map((project) => {
-    return <MiniProjectCard
-              key={project.id}
-              project={project} />
-  });
- }
+   componentWillUnmount() {
+     const user = getFirebase().auth().currentUser;
+     const database = getFirebase().database();
+     const userId = user.uid;
+     const projectsRef = database.ref('/projects/' + userId);
 
+     projectsRef.off();
+   }
 
+   makeMiniProjectCards() {
+     if (this.state.projects.length === 0) {
+       return (
+         <div className="emptyProject">
+           <h2 className="emptyProject__header">No Projects</h2>
+         </div>
+       );
+     }
+     else {
+       return this.state.projects.map((project) => {
+         return <MiniProjectCard
+           key={project.id}
+           project={project} />
+         });
+     }
+   }
   render() {
     return (
       <ul className="allprojects-list">

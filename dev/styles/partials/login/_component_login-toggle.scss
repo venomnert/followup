@@ -24,3 +24,7 @@
     margin-right: 4em;
   }
 }
+@media (max-width: 350px) {
+  .login__toggle {padding-right: 0.5em;}
+  .toggle__login {margin-bottom: 0.5em;}
+}

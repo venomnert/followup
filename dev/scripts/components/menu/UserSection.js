@@ -26,11 +26,14 @@ export class UserSection extends Component {
   }
   render() {
     return (
-      <Link to="/">
-      <div className="userSection">
+      <Link
+        to="/"
+        onClick={this.props.navToggle}
+        >
+        <div className="userSection">
         <img
           className="userSection--avatar"
-          src="https://api.adorable.io/avatars/125/abott@adorable.png"
+          src="https://avatars.io/instagram/username"
           alt="User avatar" />
           <h3 className="userSection--username">{this.state.userName}</h3>
         </div>

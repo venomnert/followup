@@ -9,9 +9,21 @@ export class Menu extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      projectsSection: false
+    }
+    this.handleSubMenuToggle = this.handleSubMenuToggle.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
     this.handleLink = this.handleLink.bind(this);
     this.lastLogin = this.lastLogin.bind(this);
+  }
+  handleSubMenuToggle(e) {
+    if(this.state[e]) {
+      this.setState({[e]: false});
+    }
+    else {
+      this.setState({[e]: true});
+    }
   }
   lastLogin() {
     const user = getFirebase().auth().currentUser;
@@ -20,9 +32,10 @@ export class Menu extends Component {
     let lastLoginRef = database.ref('/users/'+userId);
     lastLoginRef.once('value')
     .then((snapshot) => {
+      console.log('lastLogin', snapshot.val().lastLogin);
       const logoutTime = moment()._d.toString();
       // Check if lastLogin exist if not do the below
-      if (snapshot.val().lastLogin === undefined) {
+      if (snapshot.val().lastLogin === undefined || snapshot.val().lastLogin === null) {
         lastLoginRef
         .update({lastLogin: logoutTime})
         .then(() => {
@@ -66,8 +79,15 @@ export class Menu extends Component {
     return (
       <nav className="menu">
         <ul className="menu-list">
-          <li className="menu-item--userSection"><UserSection /></li>
-          <li className="menu-item--projectsSection"><i className="fa fa-folder" aria-hidden="true"></i><h4>Projects</h4><ProjectsSection /></li>
+          <li className="menu-item--userSection"><UserSection navToggle={this.props.navToggle}/></li>
+          <li onClick={() => this.handleSubMenuToggle('projectsSection')} className="menu-item--projectsSection">
+            <i className="fa fa-folder" aria-hidden="true"></i>
+            <h4>Projects</h4>
+            {this.state.projectsSection
+              ? <ProjectsSection handleSubMenuToggle={this.handleSubMenuToggle} navToggle={this.props.navToggle} />
+              : <div style={{height: '70px', width: '215px'}}></div>
+            }
+          </li>
           {/* <li className="menu-item--memebersSection"><MembersSection /></li> */}
           <li className="menu-item--logoutBtn"><Logout handleLogout={this.handleLogout} /></li>
         </ul>

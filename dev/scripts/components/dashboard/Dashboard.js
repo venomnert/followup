@@ -6,7 +6,7 @@ import {
         getNeedDocs, getResObj,
         stripUniqueKeys, mergeProjectName,
         checkComplete, emailAddressToUsername } from '../../lib/util';
-import {Menu, DefaultDashboard, NewProject, AllProjects} from './index';
+import {Menu, DefaultDashboard, NewProject, AllProjects, NavBar} from './index';
 import moment from 'moment';
 import _ from 'lodash';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
@@ -17,15 +17,33 @@ export class Dashboard extends Component {
     this.state = {
       homeMessage: '',
       userName: '',
-      lastLogin: ''
+      lastLogin: '',
+      navToggle: false,
+      hideMenu: false
     }
     this.userId = '';
     this.authSubscriber = ''
     this.fetchMail = this.fetchMail.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.updateDimension = this.updateDimension.bind(this);
     this.getDocFromMessage = this.getDocFromMessage.bind(this);
     this.createDocuments = this.createDocuments.bind(this);
     this.syncProjectDocs = this.syncProjectDocs.bind(this);
     this.removeCompleteDocs = this.removeCompleteDocs.bind(this);
+  }
+
+  // Used to toggle the menu for smaller screens
+  handleClick() {
+    if (this.state.hideMenu) {
+      if (this.state.navToggle) {this.setState({navToggle: false});}
+      else {this.setState({navToggle: true});}
+    }
+  }
+
+  // Toggle the menu based on screen resize
+  updateDimension() {
+    if(window.innerWidth <= 900) { this.setState({ hideMenu: true, navToggle: true}); }
+    else { this.setState({ hideMenu: false, navToggle: false}); }
   }
 
   createDocuments(name) {
@@ -39,16 +57,21 @@ export class Dashboard extends Component {
   }
 
   componentDidMount() {
+    //After mounting get firebase user information
     this.authSubscriber = getFirebase().auth().onAuthStateChanged((user) => {
       if (user) {
-        // console.log('logged in');
-        this.userId = user.uid;
-        this.setState({userName: emailAddressToUsername(user.email)})
         const database = getFirebase().database();
+
+        // Get the user id
+        this.userId = user.uid;
+        // Get the username
+        this.setState({userName: emailAddressToUsername(user.email)})
+
+        // Get the lastLogin info and set as state, which will be used by defaultDashboard
         getLastLogin(this.userId)
         .then((snapshot) => {
           let logInfo = '';
-          if (snapshot.val().lastLogin === undefined) {
+          if (snapshot.val().lastLogin === undefined || snapshot.val().lastLogin === null) {
             // get 10 messages
             this.fetchMail();
           }
@@ -67,6 +90,9 @@ export class Dashboard extends Component {
         console.log('not logged in', user);
       }
     });
+    // Check the screen size and toggle the NavBar
+    // this.updateDimension();
+    window.addEventListener("resize", this.updateDimension);
   }
 
   fetchMail(since) {
@@ -74,43 +100,53 @@ export class Dashboard extends Component {
     let date = new Date(since);
     let sinceFormatted = moment(date, 'DD/MM/YYYY').format('YYYY/MM/DD');
     this.setState({lastLogin: sinceFormatted});
+    if (since === undefined) {
+      this.setState({lastLogin: 'N/A'});
+    }
     // console.log('since', since);
     let query = '';
     //get projectNames
     getProject(this.userId)
     .then((snapshot) => {
-      const project = snapshot.val()
-      const projectNames = getProjectNames(project);
-      // make query
-      query = createOrQuery('subject', projectNames);
-      // console.log('query', query);
+      const project = snapshot.val();
+      console.log('existing projects', project);
+      // Make Gmail only if the user has existing projects
+      if (project !== null) {
+        const projectNames = getProjectNames(project);
+        // make query
+        query = createOrQuery('subject', projectNames);
+        // console.log('query', query);
 
-      // Get docs names
-      getDocuments()
-      .then((snapshot) => {
-        const needDocs = getNeedDocs(project, snapshot.val());
-        // console.log('needDocs', needDocs);
+        // Get docs names
+        getDocuments()
+        .then((snapshot) => {
+          const needDocs = getNeedDocs(project, snapshot.val());
+          // console.log('needDocs', needDocs);
 
-        query += createOrQuery('filename', needDocs).trim();
-        console.log('query', query);
-
-        if (since === undefined) {
+          query += createOrQuery('filename', needDocs).trim();
           console.log('query', query);
-          getMail(query).then((response) => {
-            // console.log('emails', response);
-            this.getDocFromMessage(response.result.messages);
-          });
-        }
-        else {
-          // Append date to query
-          query += `after:${sinceFormatted}`;
-          // console.log('query', query);
-          getMail(query).then((response) => {
-            // console.log('emails since', response);
-            this.getDocFromMessage(response.result.messages);
-          });
-        }
-      }); // get document then
+
+          if (since === undefined) {
+            getMail(query).then((response) => {
+              // console.log('emails', response);
+              this.getDocFromMessage(response.result.messages);
+            });
+          }
+          else {
+            // Append date to query
+            query += ` after:${sinceFormatted}`;
+            console.log('query after ', query);
+            getMail(query).then((response) => {
+
+              console.log('emails since', response);
+              this.getDocFromMessage(response.result.messages);
+            });
+          }
+        }); // get document then
+      }
+      else {
+        console.log('No projects set up');
+      }
     }); // Get project then
   }
 
@@ -201,6 +237,7 @@ export class Dashboard extends Component {
 
   componentWillUnmount() {
     this.authSubscriber();
+    window.removeEventListener("resize", this.updateDimensions);
     console.log('Unsubscribed firebase auth');
   }
 
@@ -208,18 +245,21 @@ export class Dashboard extends Component {
     return (
       <Router>
         <div className="dashboard">
-          <Menu />
-            <div className="dashboard__dash">
-              <Route exact path="/" render={(props) =>
-                <DefaultDashboard
-                  {...props}
-                  message={this.state.homeMessage}
-                  lastLogin={this.state.lastLogin}
-                  username={this.state.userName}/>
-              } />
-              <Route path="/dashboard/newProject" component={NewProject} />
-              <Route path="/dashboard/allProjects" component={AllProjects} />
-            </div>
+          <NavBar handleClick={this.handleClick}/>
+          <div className="dashboard-main">
+            {!this.state.navToggle ? <Menu navToggle={this.handleClick}/> : <div></div>}
+              <div className="dashboard__dash">
+                <Route exact path="/" render={(props) =>
+                  <DefaultDashboard
+                    {...props}
+                    message={this.state.homeMessage}
+                    lastLogin={this.state.lastLogin}
+                    username={this.state.userName}/>
+                } />
+                <Route path="/dashboard/newProject" component={NewProject} />
+                <Route path="/dashboard/allProjects" component={AllProjects} />
+              </div>
+          </div>
         </div>
     </Router>
     );

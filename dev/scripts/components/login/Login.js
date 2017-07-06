@@ -2,9 +2,8 @@ import React, {Component} from 'react';
 import {LoginForm, LoginToggle, SignupForm} from './index';
 import {getFirebase} from '../../lib/firebase-util';
 import {CLIENT_ID, DISCOVERY_DOCS, SCOPES} from '../../lib/keys';
-import {isValidEmail, getDefaultState, isValidPassword} from '../../lib/util';
+import {isValidEmail, getDefaultState, isValidPassword, emailAddressToUsername} from '../../lib/util';
 import { ajax } from 'jquery';
-
 export class Login extends Component {
   constructor(props) {
     super(props);
@@ -49,7 +48,7 @@ export class Login extends Component {
     const database = getFirebase().database();
     const userId = user.uid;
     const usersRef = database.ref('/users/'+userId);
-    const userName = emailAddressToUsername(user.email)
+    const userName = emailAddressToUsername(user.email);
     usersRef.set({
       userId: userId,
       username: userName
@@ -138,9 +137,11 @@ export class Login extends Component {
   }
   render() {
     return (
-      <div className="login">
-        <h3 className="login__statusMessage">{this.state.statusMessage}</h3>
-        {this.formTypeChange(this.state.formType)}
+      <div className="login-container">
+        <div className="login">
+          <h3 className="login__statusMessage">{this.state.statusMessage}</h3>
+          {this.formTypeChange(this.state.formType)}
+        </div>
       </div>
     );
   }
